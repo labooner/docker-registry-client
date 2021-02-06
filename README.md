@@ -3,11 +3,19 @@
 An API client for the [V2 Docker Registry
 API](http://docs.docker.com/registry/spec/api/), for Go applications.
 
+Forked from [heroku/docker-registry-client](https://github.com/heroku/docker-registry-client).
+Unfortunately their repository hasn't been updated for a few years.
+
+The changes I have made are:
+
+- Added a ManifestDigestV2 method. `Docker-Content-Digest` contains a
+different value, depending on the `Accept` header sent.
+
 ## Imports
 
 ```go
 import (
-    "github.com/heroku/docker-registry-client/registry"
+    "github.com/labooner/docker-registry-client/registry"
     "github.com/docker/distribution/digest"
     "github.com/docker/distribution/manifest"
     "github.com/docker/libtrust"
