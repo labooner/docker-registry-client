@@ -12,6 +12,8 @@ The changes I have made are:
 
 - Added a ManifestDigestV2 method. `Docker-Content-Digest` contains a
 different value, depending on the `Accept` header sent.
+- Swapped to using Github Actions for [golang-ci lint](https://github.com/golangci/golangci-lint).
+Addressed [issues highlighted](https://github.com/labooner/docker-registry-client/actions/runs/607836817).
 
 ## Imports
 
