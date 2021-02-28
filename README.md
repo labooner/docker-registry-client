@@ -1,3 +1,5 @@
+[![golangci-lint](https://github.com/labooner/docker-registry-client/actions/workflows/golangci-lint.yml/badge.svg)](https://github.com/labooner/docker-registry-client/actions/workflows/golangci-lint.yml)
+
 # Docker Registry Client
 
 An API client for the [V2 Docker Registry
