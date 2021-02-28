@@ -1,7 +1,6 @@
 package registry
 
 import (
-	"crypto/tls"
 	"fmt"
 	"log"
 	"net/http"
@@ -9,13 +8,6 @@ import (
 )
 
 type LogfCallback func(format string, args ...interface{})
-
-/*
- * Discard log messages silently.
- */
-func Quiet(format string, args ...interface{}) {
-	/* discard logs */
-}
 
 /*
  * Pass log messages along to Go's "log" module.
@@ -40,21 +32,6 @@ type Registry struct {
  */
 func New(registryURL, username, password string) (*Registry, error) {
 	transport := http.DefaultTransport
-
-	return newFromTransport(registryURL, username, password, transport, Log)
-}
-
-/*
- * Create a new Registry, as with New, using an http.Transport that disables
- * SSL certificate verification.
- */
-func NewInsecure(registryURL, username, password string) (*Registry, error) {
-	transport := &http.Transport{
-		TLSClientConfig: &tls.Config{
-			// TODO: Why?
-			InsecureSkipVerify: true, //nolint:gosec
-		},
-	}
 
 	return newFromTransport(registryURL, username, password, transport, Log)
 }
@@ -101,16 +78,16 @@ func newFromTransport(registryURL, username, password string, transport http.Rou
 	return registry, nil
 }
 
-func (r *Registry) url(pathTemplate string, args ...interface{}) string {
+func (registry *Registry) url(pathTemplate string, args ...interface{}) string {
 	pathSuffix := fmt.Sprintf(pathTemplate, args...)
-	url := fmt.Sprintf("%s%s", r.URL, pathSuffix)
+	url := fmt.Sprintf("%s%s", registry.URL, pathSuffix)
 	return url
 }
 
-func (r *Registry) Ping() error {
-	url := r.url("/v2/")
-	r.Logf("registry.ping url=%s", url)
-	resp, err := r.Client.Get(url)
+func (registry *Registry) Ping() error {
+	url := registry.url("/v2/")
+	registry.Logf("registry.ping url=%s", url)
+	resp, err := registry.Client.Get(url)
 	if resp != nil {
 		defer resp.Body.Close()
 	}
